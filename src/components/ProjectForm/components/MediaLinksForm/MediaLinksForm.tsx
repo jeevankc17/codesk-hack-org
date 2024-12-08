@@ -1,20 +1,12 @@
 import React from 'react';
 import { Box, TextField, Typography, Chip, FormControlLabel, Checkbox } from '@mui/material';
 import { MediaLinksFormProps, FileUploadType } from './types';
+import { TagInput } from '../../../commons/TagInput';
+import { Video, Plus } from 'lucide-react';
 
 const PLATFORMS = ['Web', 'MacOS', 'Android', 'iOS'];
 
 const MediaLinksForm: React.FC<MediaLinksFormProps> = ({ formData, setFormData }) => {
-  const handleLinkAdd = (event: React.KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && event.currentTarget.value) {
-      setFormData({
-        ...formData,
-        links: [...formData.links, event.currentTarget.value]
-      });
-      event.currentTarget.value = '';
-    }
-  };
-
   const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>, type: FileUploadType) => {
     const files = event.target.files;
     if (!files) return;
@@ -40,44 +32,50 @@ const MediaLinksForm: React.FC<MediaLinksFormProps> = ({ formData, setFormData }
     setFormData({ ...formData, platforms: newPlatforms });
   };
 
+  const handleLoomClick = () => {
+    window.open('https://www.loom.com/record', '_blank');
+  };
+
   return (
     <Box sx={{ display: 'flex', flexDirection: 'column', gap: 3 }}>
-      <Box>
-        <Typography variant="h6" gutterBottom>
-          Links*
-        </Typography>
-        <Typography variant="body2" color="text.secondary" gutterBottom>
-          Add links to Github, website, App store etc.
-        </Typography>
-        <TextField
-          fullWidth
-          placeholder="Type link and press enter"
-          onKeyPress={handleLinkAdd}
-        />
-        <Box sx={{ mt: 2, display: 'flex', flexWrap: 'wrap', gap: 1 }}>
-          {formData.links.map((link, index) => (
-            <Chip
-              key={index}
-              label={link}
-              onDelete={() => {
-                const newLinks = formData.links.filter((_, i) => i !== index);
-                setFormData({ ...formData, links: newLinks });
-              }}
-            />
-          ))}
-        </Box>
-      </Box>
+      <TagInput
+        label="Links*"
+        description="Add links to Github, website, App store etc."
+        value={formData.links}
+        onChange={(newLinks) => setFormData({ ...formData, links: newLinks })}
+        placeholder="Enter URL and press enter"
+        validate={(url) => {
+          try {
+            new URL(url);
+            return true;
+          } catch {
+            return 'Please enter a valid URL';
+          }
+        }}
+      />
 
       <Box>
         <Typography variant="h6" gutterBottom>
           Video Demo*
         </Typography>
-        <TextField
-          fullWidth
-          placeholder="Add link to video demo"
-          value={formData.videoDemo}
-          onChange={(e) => setFormData({ ...formData, videoDemo: e.target.value })}
-        />
+        <div className="space-y-4">
+          <TextField
+            fullWidth
+            placeholder="Paste video URL here"
+            value={formData.videoDemo}
+            onChange={(e) => setFormData({ ...formData, videoDemo: e.target.value })}
+          />
+          <div className="flex items-center gap-2">
+            <span className="text-gray-500">or</span>
+            <button
+              onClick={handleLoomClick}
+              className="flex items-center gap-2 px-4 py-2 bg-purple-500 text-white rounded-md hover:bg-purple-600 transition-colors"
+            >
+              <Plus className="w-4 h-4" />
+              Record with Loom
+            </button>
+          </div>
+        </div>
       </Box>
 
       <Box>

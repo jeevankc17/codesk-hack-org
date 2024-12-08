@@ -1,21 +1,23 @@
 import React from 'react';
 import { FormNavigationProps } from './types';
 
-export const FormNavigation: React.FC<FormNavigationProps> = ({ 
+export const FormNavigation = ({ 
   onPrevious, 
-  onNext, 
-  nextLabel = 'Next', 
-  nextDisabled = false 
-}) => {
+  onNext,
+  previousLabel = 'Previous',
+  nextLabel = 'Next'
+}: FormNavigationProps) => {
   return (
     <div className="flex justify-between">
-      <button onClick={onPrevious} className="px-4 py-2 text-gray-600">
-        Previous
+      <button 
+        onClick={onPrevious}
+        className="px-4 py-2 text-gray-600"
+      >
+        {previousLabel}
       </button>
       <button 
-        onClick={onNext} 
-        disabled={nextDisabled}
-        className="px-4 py-2 bg-blue-500 text-white rounded disabled:opacity-50"
+        onClick={onNext}
+        className="px-4 py-2 bg-blue-500 text-white rounded"
       >
         {nextLabel}
       </button>

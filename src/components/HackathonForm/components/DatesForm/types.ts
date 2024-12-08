@@ -1,6 +1,6 @@
-import { HackathonFormData } from '../../types';
+import { DatesConfig } from '../../types';
 
 export interface DatesFormProps {
-  data: Pick<HackathonFormData, 'timezone' | 'applicationOpen' | 'applicationClose' | 'rsvpWithin' | 'hackathonBegins' | 'submissionDeadline'>;
-  onChange: (data: Partial<HackathonFormData>) => void;
+  data: DatesConfig;
+  onChange: (data: Partial<DatesConfig>) => void;
 }

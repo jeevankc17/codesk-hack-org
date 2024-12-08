@@ -8,7 +8,8 @@ export type TabId =
   | 'prizes'
   | 'speakers'
   | 'schedule'
-  | 'faqs';
+  | 'faqs'
+  | 'preview';
 
 export const tabs = [
   { id: 'basics', label: 'Basics' },
@@ -21,4 +22,5 @@ export const tabs = [
   { id: 'speakers', label: 'Speakers' },
   { id: 'schedule', label: 'Schedule' },
   { id: 'faqs', label: 'FAQs' },
+  { id: 'preview', label: 'Preview' }
 ] as const; 

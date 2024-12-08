@@ -1,10 +1,10 @@
-import React, { useState, useRef } from 'react';
+import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
 import { Speaker } from './types';
 import { FormNavigation } from '../../../commons/FormNavigation';
 
 interface SpeakersFormProps {
-  initialData?: Speaker[];
+  initialData: Speaker[];
   onChange: (speakers: Speaker[]) => void;
   onPrevious: () => void;
   onNext: () => void;
@@ -17,19 +17,25 @@ export function SpeakersForm({
   onNext,
 }: SpeakersFormProps) {
   const [speakers, setSpeakers] = useState<Speaker[]>(initialData);
-  const fileInputRef = useRef<HTMLInputElement>(null);
 
   const addSpeaker = () => {
     const newSpeaker: Speaker = {
       id: uuidv4(),
       name: '',
-      jobTitle: '',
-      company: '',
+      designation: '',
+      organization: '',
+      bio: '',
+      photo: null,
+      linkedin: '',
+      twitter: '',
       website: '',
-      socialLinks: {},
-      about: '',
-      isFeatured: false,
-      type: 'speaker',
+      socialLinks: {
+        twitter: '',
+        farcaster: '',
+        linkedin: '',
+        instagram: ''
+      },
+      isFeatured: false
     };
     const updatedSpeakers = [...speakers, newSpeaker];
     setSpeakers(updatedSpeakers);
@@ -59,18 +65,20 @@ export function SpeakersForm({
     onChange(updatedSpeakers);
   };
 
-  const handleFileUpload = (id: string, file: File) => {
-    if (file.size > 5 * 1024 * 1024) {
-      alert('File size must be less than 5MB');
-      return;
-    }
+  const handleFileChange = (id: string, file: File | null) => {
+    if (file) {
+      if (file.size > 5 * 1024 * 1024) {
+        alert('File size must be less than 5MB');
+        return;
+      }
 
-    if (!file.type.match(/image\/(png|jpeg)/)) {
-      alert('Only PNG and JPG files are allowed');
-      return;
-    }
+      if (!file.type.match(/image\/(png|jpeg)/)) {
+        alert('Only PNG and JPG files are allowed');
+        return;
+      }
 
-    updateSpeaker(id, 'picture', file);
+      updateSpeaker(id, 'photo', file);
+    }
   };
 
   return (
@@ -85,10 +93,7 @@ export function SpeakersForm({
       </div>
 
       {speakers.map((speaker) => (
-        <div
-          key={speaker.id}
-          className="p-6 border rounded-lg space-y-4 bg-white"
-        >
+        <div key={speaker.id} className="p-6 border rounded-lg space-y-4 bg-white">
           <div className="flex justify-between items-center">
             <h3 className="text-lg font-medium">Speaker</h3>
             <button
@@ -99,185 +104,119 @@ export function SpeakersForm({
             </button>
           </div>
 
-          {/* Required Information */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {/* Basic Information */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Name *
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Name *</label>
               <input
                 type="text"
                 value={speaker.name}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'name', e.target.value)
-                }
+                onChange={(e) => updateSpeaker(speaker.id, 'name', e.target.value)}
                 className="mt-1 w-full p-2 border rounded"
                 required
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Job Title *
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Designation *</label>
               <input
                 type="text"
-                value={speaker.jobTitle}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'jobTitle', e.target.value)
-                }
+                value={speaker.designation}
+                onChange={(e) => updateSpeaker(speaker.id, 'designation', e.target.value)}
                 className="mt-1 w-full p-2 border rounded"
                 required
               />
             </div>
           </div>
 
-          {/* Optional Information */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          {/* Organization & Website */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Company/Organization
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Organization</label>
               <input
                 type="text"
-                value={speaker.company || ''}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'company', e.target.value)
-                }
+                value={speaker.organization || ''}
+                onChange={(e) => updateSpeaker(speaker.id, 'organization', e.target.value)}
                 className="mt-1 w-full p-2 border rounded"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Personal Website
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Website</label>
               <input
                 type="url"
                 value={speaker.website || ''}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'website', e.target.value)
-                }
+                onChange={(e) => updateSpeaker(speaker.id, 'website', e.target.value)}
                 className="mt-1 w-full p-2 border rounded"
               />
             </div>
           </div>
 
           {/* Social Links */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Twitter
-              </label>
+              <label className="block text-sm font-medium text-gray-700">Twitter</label>
               <input
                 type="url"
                 value={speaker.socialLinks.twitter || ''}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'socialLinks', {
-                    twitter: e.target.value,
-                  })
-                }
+                onChange={(e) => updateSpeaker(speaker.id, 'socialLinks', { twitter: e.target.value })}
                 className="mt-1 w-full p-2 border rounded"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Farcaster
-              </label>
-              <input
-                type="url"
-                value={speaker.socialLinks.farcaster || ''}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'socialLinks', {
-                    farcaster: e.target.value,
-                  })
-                }
-                className="mt-1 w-full p-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                LinkedIn
-              </label>
+              <label className="block text-sm font-medium text-gray-700">LinkedIn</label>
               <input
                 type="url"
                 value={speaker.socialLinks.linkedin || ''}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'socialLinks', {
-                    linkedin: e.target.value,
-                  })
-                }
-                className="mt-1 w-full p-2 border rounded"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700">
-                Instagram
-              </label>
-              <input
-                type="url"
-                value={speaker.socialLinks.instagram || ''}
-                onChange={(e) =>
-                  updateSpeaker(speaker.id, 'socialLinks', {
-                    instagram: e.target.value,
-                  })
-                }
+                onChange={(e) => updateSpeaker(speaker.id, 'socialLinks', { linkedin: e.target.value })}
                 className="mt-1 w-full p-2 border rounded"
               />
             </div>
           </div>
 
-          {/* About */}
+          {/* Bio */}
           <div>
-            <label className="block text-sm font-medium text-gray-700">
-              About
-            </label>
+            <label className="block text-sm font-medium text-gray-700">Bio</label>
             <textarea
-              value={speaker.about || ''}
-              onChange={(e) =>
-                updateSpeaker(speaker.id, 'about', e.target.value)
-              }
+              value={speaker.bio || ''}
+              onChange={(e) => updateSpeaker(speaker.id, 'bio', e.target.value)}
               className="mt-1 w-full p-2 border rounded"
               rows={3}
             />
           </div>
 
-          {/* Featured Checkbox */}
-          <div className="flex items-center">
-            <input
-              type="checkbox"
-              checked={speaker.isFeatured}
-              onChange={(e) =>
-                updateSpeaker(speaker.id, 'isFeatured', e.target.checked)
-              }
-              className="h-4 w-4 text-blue-600 rounded border-gray-300"
-            />
-            <label className="ml-2 text-sm text-gray-700">
-              Feature this speaker
-            </label>
-          </div>
-
-          {/* Picture Upload */}
+          {/* Photo Upload */}
           <div>
             <label className="block text-sm font-medium text-gray-700">
-              Picture (64x64, max 5MB, PNG/JPG)
+              Photo (Recommended: 400x400, max 5MB)
             </label>
             <input
               type="file"
               accept="image/png,image/jpeg"
               onChange={(e) => {
-                const file = e.target.files?.[0];
-                if (file) handleFileUpload(speaker.id, file);
+                const file = e.target.files?.[0] || null;
+                handleFileChange(speaker.id, file);
               }}
               className="mt-1 w-full"
             />
-            {speaker.picture && (
+            {speaker.photo && (
               <div className="mt-2">
                 <img
-                  src={URL.createObjectURL(speaker.picture)}
+                  src={URL.createObjectURL(speaker.photo)}
                   alt={speaker.name}
                   className="w-16 h-16 object-cover rounded"
                 />
               </div>
             )}
+          </div>
+
+          {/* Featured Speaker */}
+          <div className="flex items-center">
+            <input
+              type="checkbox"
+              checked={speaker.isFeatured}
+              onChange={(e) => updateSpeaker(speaker.id, 'isFeatured', e.target.checked)}
+              className="h-4 w-4 text-blue-600 rounded border-gray-300"
+            />
+            <label className="ml-2 text-sm text-gray-700">Feature this speaker</label>
           </div>
         </div>
       ))}

@@ -1,7 +1,22 @@
-import { FAQ } from './components/FAQsForm/types';
+import { Partner } from './components/PartnersForm/types';
 import { Track } from './components/PrizesForm/types';
 import { ScheduleEvent } from './components/ScheduleForm/types';
-import { Partner } from './components/PartnersForm/types';
+import { FAQ } from './components/FAQsForm/types';
+import { Speaker } from './components/SpeakersForm/types';
+
+export interface DateTimeConfig {
+  date: string;
+  time: string;
+}
+
+export interface DatesConfig {
+  timezone: string;
+  applicationOpen: DateTimeConfig;
+  applicationClose: DateTimeConfig;
+  rsvpWithin: number;
+  hackathonBegins: DateTimeConfig;
+  submissionDeadline: DateTimeConfig;
+}
 
 export interface HackathonFormData {
   // Basics
@@ -15,37 +30,17 @@ export interface HackathonFormData {
   venue: string;
 
   // Dates
-  timezone: string;
-  applicationOpen: {
-    date: string;
-    time: string;
-  };
-  applicationClose: {
-    date: string;
-    time: string;
-  };
-  rsvpWithin: number;
-  hackathonBegins: {
-    date: string;
-    time: string;
-  };
-  submissionDeadline: {
-    date: string;
-    time: string;
-  };
+  dates: DatesConfig;
 
-  // Brand
-  brandColor: string;
-  logo: File | null;
-  favicon: File | null;
-  coverImage: File | null;
+  // Application form data
+  selectedFields: string[];
 
-  // Links
+  // Links form data
   websiteUrl: string;
-  devfolioUrl: string;
+  codeskUrl?: string;
   contactEmail: string;
   codeOfConductUrl: string;
-  useDevfolioCodeOfConduct: boolean;
+  useCodeOfConductUrl: boolean;
   socialLinks: {
     twitter: string;
     linkedin: string;
@@ -57,24 +52,29 @@ export interface HackathonFormData {
     instagram: string;
   };
 
-  // Application
-  selectedFields: string[];
+  // Brand form data
+  brandColor: string;
+  logo: File | null;
+  favicon: File | null;
+  coverImage: File | null;
 
-  // Schedule
-  events: ScheduleEvent[];
+  // Partners form data
+  partners: Partner[];
+  addLater: boolean;
 
-  // Prizes
+  // Tracks and prizes
   tracks: Track[];
+
+  // Speakers
+  speakers: Speaker[];
+
+  // Schedule events
+  events: ScheduleEvent[];
 
   // FAQs
   faqs: FAQ[];
-
-  // Partners
-  partners: Partner[];
-  addLater: boolean;
 }
 
 export interface HackathonFormProps {
-  initialData?: Partial<HackathonFormData>;
   onSubmit: (data: HackathonFormData) => void;
 } 

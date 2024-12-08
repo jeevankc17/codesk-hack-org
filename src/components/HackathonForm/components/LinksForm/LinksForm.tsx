@@ -38,7 +38,7 @@ export function LinksForm({ data, onChange }: LinksFormProps) {
 
         <div className="space-y-2">
           <label
-            htmlFor="devfolioUrl"
+            htmlFor="codeskUrl"
             className="block text-sm font-medium text-gray-700"
           >
             CODESK MICROSITE URL
@@ -49,13 +49,13 @@ export function LinksForm({ data, onChange }: LinksFormProps) {
             </span>
             <input
               type="text"
-              id="devfolioUrl"
-              value={data.devfolioUrl}
-              onChange={(e) => onChange({ devfolioUrl: e.target.value })}
+              id="codeskUrl"
+              value={data.codeskUrl}
+              onChange={(e) => onChange({ codeskUrl: e.target.value })}
               className="flex-1 px-3 py-2 border border-l-0 border-gray-300 rounded-r-md focus:ring-blue-500 focus:border-blue-500"
               placeholder=".codesk.co"
             />
-            <InfoTooltip text="You can integrate the 'Apply with Devfolio' button on your hackathon website. Learn more about it here." />
+            <InfoTooltip text="You can integrate the 'Apply with codesk' button on your hackathon website. Learn more about it here." />
           </div>
         </div>
 
@@ -96,23 +96,23 @@ export function LinksForm({ data, onChange }: LinksFormProps) {
               value={data.codeOfConductUrl}
               onChange={(e) => onChange({ codeOfConductUrl: e.target.value })}
               className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
-              disabled={data.useDevfolioCodeOfConduct}
+              disabled={data.useCodeOfConductUrl}
             />
             <div className="flex items-center gap-2">
               <Checkbox
-                id="useDevfolioCodeOfConduct"
-                checked={data.useDevfolioCodeOfConduct}
+                id="useCodeOfConductUrl"
+                checked={data.useCodeOfConductUrl}
                 onChange={(e) =>
-                  onChange({ useDevfolioCodeOfConduct: e.target.checked })
+                  onChange({ useCodeOfConductUrl: e.target.checked })
                 }
               />
               <label
-                htmlFor="useDevfolioCodeOfConduct"
+                htmlFor="usecodeskCodeOfConduct"
                 className="text-sm text-gray-600"
               >
-                Use Devfolio's Code of Conduct
+                Use codesk's Code of Conduct
               </label>
-              <InfoTooltip text="You can use Devfolio's standard Code of Conduct for your hackathon." />
+              <InfoTooltip text="You can use codesk's standard Code of Conduct for your hackathon." />
             </div>
           </div>
         </div>

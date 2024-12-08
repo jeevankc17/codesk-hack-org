@@ -42,7 +42,7 @@ export function BrandForm({ data, onChange }: BrandFormProps) {
         <FileUpload
           id="coverImage"
           label="Cover Image"
-          description="This image will be shown on your hackathon's Devfolio microsite. Make sure you include some relevant information like dates, venue, logo, etc."
+          description="This image will be shown on your hackathon's codeskke sure you include some relevant information like dates, venue, logo, etc."
           dimensions="770x437 .png or .jpeg (5 MB max)"
           maxSize="5MB"
           onChange={(file) => onChange({ coverImage: file })}

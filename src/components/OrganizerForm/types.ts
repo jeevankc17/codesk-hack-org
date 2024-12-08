@@ -18,6 +18,7 @@ export interface OrganizerFormData {
   establishedYear: number;
   teamSize: number;
   previousHackathons: number;
+  requiredSkills: string[];
   socialLinks: {
     linkedin: string;
     twitter: string;

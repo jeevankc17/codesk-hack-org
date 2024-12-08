@@ -18,69 +18,13 @@ import { ScheduleForm } from './components/ScheduleForm/ScheduleForm';
 import { ScheduleEvent } from './components/ScheduleForm/types';
 import { FAQsForm } from './components/FAQsForm/FAQsForm';
 import { FAQ } from './components/FAQsForm/types';
-import { HackathonFormProps } from './types';
+import { HackathonFormProps, HackathonFormData } from './types';
+import HackathonPreview from './components/HackathonPreview/HackathonPreview';
 
-interface FormData {
-  // Basics form data
-  name: string;
-  tagline: string;
-  about: string;
-  themes: string[];
-  approxParticipants: number;
-  minTeamSize: number;
-  maxTeamSize: number;
-  venue: string;
-  // Application form data
-  selectedFields: string[];
-  // Dates form data
-  dates: {
-    timezone: string;
-    applicationOpen: {
-      date: string;
-      time: string;
-    };
-    applicationClose: {
-      date: string;
-      time: string;
-    };
-    rsvpWithin: number;
-    hackathonBegins: {
-      date: string;
-      time: string;
-    };
-    submissionDeadline: {
-      date: string;
-      time: string;
-    };
-  };
-  // Links form data
-  websiteUrl: string;
-  devfolioUrl: string;
-  contactEmail: string;
-  codeOfConductUrl: string;
-  useDevfolioCodeOfConduct: boolean;
-  socialLinks: {
-    twitter: string;
-    linkedin: string;
-    discord: string;
-    slack: string;
-    hashnode: string;
-    telegram: string;
-    facebook: string;
-    instagram: string;
-  };
-  // Brand form data
-  brandColor: string;
-  logo: File | null;
-  favicon: File | null;
-  coverImage: File | null;
-  // Partners form data
-  partners: Partner[];
-  addLater: boolean;
-}
+
 
 const calculateProgress = (
-  formData: FormData,
+  formData: HackathonFormData,
   prizes: Track[],
   speakers: Speaker[],
   scheduleEvents: ScheduleEvent[],
@@ -114,7 +58,7 @@ const calculateProgress = (
         Boolean(
           formData.websiteUrl &&
             formData.contactEmail &&
-            (formData.codeOfConductUrl || formData.useDevfolioCodeOfConduct)
+            (formData.codeOfConductUrl || formData.useCodeOfConductUrl)
         ),
     },
     // Brand - check required fields
@@ -172,8 +116,8 @@ const calculateProgress = (
 
 const HackathonForm: React.FC<HackathonFormProps> = ({ onSubmit }) => {
   const [activeTab, setActiveTab] = useState<TabId>('basics');
-  const [formData, setFormData] = useState<FormData>({
-    // Basics form data
+  const [formData, setFormData] = useState<HackathonFormData>({
+    // Basics
     name: '',
     tagline: '',
     about: '',
@@ -182,35 +126,23 @@ const HackathonForm: React.FC<HackathonFormProps> = ({ onSubmit }) => {
     minTeamSize: 0,
     maxTeamSize: 0,
     venue: '',
-    // Application form data
-    selectedFields: ['first_last_name', 'email'],
-    // Dates form data
+    // Dates
     dates: {
       timezone: '',
-      applicationOpen: {
-        date: '',
-        time: '',
-      },
-      applicationClose: {
-        date: '',
-        time: '',
-      },
+      applicationOpen: { date: '', time: '' },
+      applicationClose: { date: '', time: '' },
       rsvpWithin: 3,
-      hackathonBegins: {
-        date: '',
-        time: '',
-      },
-      submissionDeadline: {
-        date: '',
-        time: '',
-      },
+      hackathonBegins: { date: '', time: '' },
+      submissionDeadline: { date: '', time: '' }
     },
+    // Application form data
+    selectedFields: ['first_last_name', 'email'],
     // Links form data
     websiteUrl: '',
-    devfolioUrl: '',
+    codeskUrl: '',
     contactEmail: '',
     codeOfConductUrl: '',
-    useDevfolioCodeOfConduct: false,
+    useCodeOfConductUrl: false,
     socialLinks: {
       twitter: '',
       linkedin: '',
@@ -229,6 +161,14 @@ const HackathonForm: React.FC<HackathonFormProps> = ({ onSubmit }) => {
     // Partners form data
     partners: [],
     addLater: false,
+    // Tracks and prizes
+    tracks: [],
+    // Speakers
+    speakers: [],
+    // Schedule events
+    events: [],
+    // FAQs
+    faqs: []
   });
   const [prizes, setPrizes] = useState<Track[]>([]);
   const [speakers, setSpeakers] = useState<Speaker[]>([]);
@@ -361,10 +301,10 @@ const HackathonForm: React.FC<HackathonFormProps> = ({ onSubmit }) => {
               <LinksForm
                 data={{
                   websiteUrl: formData.websiteUrl,
-                  devfolioUrl: formData.devfolioUrl,
+                  codeskUrl: formData.codeskUrl,
                   contactEmail: formData.contactEmail,
                   codeOfConductUrl: formData.codeOfConductUrl,
-                  useDevfolioCodeOfConduct: formData.useDevfolioCodeOfConduct,
+                  useCodeOfConductUrl: formData.useCodeOfConductUrl,
                   socialLinks: formData.socialLinks,
                 }}
                 onChange={handleFormChange}
@@ -428,6 +368,19 @@ const HackathonForm: React.FC<HackathonFormProps> = ({ onSubmit }) => {
               <FAQsForm initialData={faqs} onChange={handleFAQsChange} />
               <FormNavigation onPrevious={handlePrevious} onNext={handleNext} />
             </div>
+          )}
+          {activeTab === 'preview' && (
+            <HackathonPreview
+              formData={{
+                ...formData,
+                tracks: prizes,
+                speakers,
+                events: scheduleEvents,
+                faqs
+              }}
+              onSubmit={onSubmit}
+              onBack={() => setActiveTab('basics')}
+            />
           )}
         </div>
       </main>

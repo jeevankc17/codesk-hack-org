@@ -145,10 +145,8 @@ const ProjectForm: React.FC<ProjectFormProps> = ({ hackathonName, organizerName,
                   formData={formData}
                   hackathonName={hackathonName}
                   organizerName={organizerName}
-                />
-                <FormNavigation 
-                  onPrevious={handlePrevious} 
-                  onNext={() => onSubmit(formData)}
+                  onSubmit={onSubmit}
+                  onBack={() => setActiveTab(PROJECT_FORM_TABS.BASIC_INFO)}
                 />
               </div>
             )}

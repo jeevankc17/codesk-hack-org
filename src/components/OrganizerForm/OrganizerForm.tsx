@@ -6,6 +6,7 @@ import { BasicInfoForm } from './components/BasicInfoForm/BasicInfoForm';
 import { ContactInfoForm } from './components/ContactInfoForm/ContactInfoForm';
 import { OrganizationDetailsForm } from './components/OrganizationDetailsForm/OrganizationDetailsForm';
 import { SocialLinksForm } from './components/SocialLinksForm/SocialLinksForm';
+import { OrganizerPreview } from './components/OrganizerPreview/OrganizerPreview';
 import { tabs, TabId } from './constants/tabs';
 import { OrganizerFormData, OrganizerFormProps } from './types';
 
@@ -86,6 +87,7 @@ function OrganizerForm({ initialData, onSubmit }: OrganizerFormProps) {
     establishedYear: new Date().getFullYear(),
     teamSize: 0,
     previousHackathons: 0,
+    requiredSkills: [],
     socialLinks: {
       linkedin: '',
       twitter: '',
@@ -176,6 +178,12 @@ function OrganizerForm({ initialData, onSubmit }: OrganizerFormProps) {
           {activeTab === 'social-links' && (
             <div className="space-y-6">
               <SocialLinksForm data={formData} onChange={handleFormChange} />
+              <FormNavigation onPrevious={handlePrevious} onNext={handleNext} />
+            </div>
+          )}
+          {activeTab === 'preview' && (
+            <div className="space-y-6">
+              <OrganizerPreview data={formData} />
               <FormNavigation onPrevious={handlePrevious} onNext={handleNext} />
             </div>
           )}

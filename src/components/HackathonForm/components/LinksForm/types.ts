@@ -1,9 +1,9 @@
 export interface LinksFormData {
   websiteUrl: string;
-  devfolioUrl: string;
+  codeskUrl?: string;
   contactEmail: string;
   codeOfConductUrl: string;
-  useDevfolioCodeOfConduct: boolean;
+  useCodeOfConductUrl: boolean;
   socialLinks: {
     twitter: string;
     linkedin: string;

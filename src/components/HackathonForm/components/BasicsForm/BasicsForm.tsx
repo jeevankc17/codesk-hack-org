@@ -2,6 +2,7 @@ import React from 'react';
 import { InfoTooltip } from '../../../commons/InfoTooltip';
 import { ThemeSelector } from '../../../commons/ThemeSelector';
 import { BasicsFormProps } from './types';
+import { TagInput } from '../../../commons/TagInput';
 
 export function BasicsForm({ data, onChange }: BasicsFormProps) {
   return (
@@ -154,6 +155,15 @@ export function BasicsForm({ data, onChange }: BasicsFormProps) {
           placeholder="e.g. Palace of the Fine Arts, San Francisco, California"
         />
       </div>
+
+      <TagInput
+        label="Themes*"
+        description="What are the themes for this hackathon?"
+        value={data.themes}
+        onChange={(newThemes) => onChange({ themes: newThemes })}
+        placeholder="Add hackathon theme"
+        color="secondary"
+      />
     </div>
   );
 } 

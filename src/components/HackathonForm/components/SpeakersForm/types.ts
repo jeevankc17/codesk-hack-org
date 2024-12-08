@@ -1,23 +1,25 @@
-export interface SocialLinks {
-  twitter?: string;
-  farcaster?: string;
-  linkedin?: string;
-  instagram?: string;
-}
-
 export interface Speaker {
   id: string;
   name: string;
-  jobTitle: string;
-  company?: string;
+  designation: string;
+  organization?: string;
+  bio?: string;
+  photo: File | null;
+  linkedin?: string;
+  twitter?: string;
   website?: string;
-  socialLinks: SocialLinks;
-  about?: string;
-  isFeatured: boolean;
-  picture?: File;
-  type: 'speaker' | 'judge';
+  socialLinks: {
+    twitter?: string;
+    farcaster?: string;
+    linkedin?: string;
+    instagram?: string;
+  };
+  isFeatured?: boolean;
 }
 
-export interface SpeakersFormData {
-  speakers: Speaker[];
+export interface SpeakersFormProps {
+  initialData: Speaker[];
+  onChange: (speakers: Speaker[]) => void;
+  onPrevious: () => void;
+  onNext: () => void;
 }

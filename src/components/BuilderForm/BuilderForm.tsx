@@ -9,6 +9,7 @@ import EducationForm from './components/EducationForm/EducationForm';
 import SkillsForm from './components/SkillsForm/SkillsForm';
 import SocialLinksForm from './components/SocialLinksForm/SocialLinksForm';
 import AdditionalInfoForm from './components/AdditionalInfoForm/AdditionalInfoForm';
+import { BuilderPreview } from './components/BuilderPreview/BuilderPreview';
 
 const BuilderForm: React.FC<BuilderFormProps> = ({ initialData, onSubmit }) => {
   const [activeTab, setActiveTab] = useState<BuilderFormTabs>(BUILDER_FORM_TABS.BASIC_INFO);
@@ -181,6 +182,15 @@ const BuilderForm: React.FC<BuilderFormProps> = ({ initialData, onSubmit }) => {
             {activeTab === BUILDER_FORM_TABS.ADDITIONAL && (
               <div className="space-y-6">
                 <AdditionalInfoForm formData={formData} setFormData={setFormData} />
+                <FormNavigation 
+                  onPrevious={handlePrevious} 
+                  onNext={() => onSubmit(formData)}
+                />
+              </div>
+            )}
+            {activeTab === BUILDER_FORM_TABS.PREVIEW && (
+              <div className="space-y-6">
+                <BuilderPreview data={formData} />
                 <FormNavigation 
                   onPrevious={handlePrevious} 
                   onNext={() => onSubmit(formData)}
