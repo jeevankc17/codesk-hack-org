@@ -9,12 +9,15 @@
     "eject": "react-scripts eject"
   },
   "dependencies": {
+    "@clerk/clerk-react": "^5.19.1",
     "@emotion/react": "^11.13.5",
     "@emotion/styled": "^11.13.5",
     "@heroicons/react": "^2.2.0",
     "@mui/material": "^6.1.10",
     "@mui/x-date-pickers": "^7.23.1",
+    "@tanstack/react-query": "^5.62.3",
     "@types/react-datepicker": "^6.2.0",
+    "axios": "^1.7.9",
     "date-fns": "^4.1.0",
     "lucide-react": "^0.344.0",
     "react": "^18.2.0",
@@ -22,10 +25,13 @@
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.28.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^10.0.6",
     "uuid": "^11.0.3"
   },
   "devDependencies": {
     "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
+    "@tanstack/eslint-plugin-query": "^5.62.1",
+    "@tanstack/react-query-devtools": "^5.62.3",
     "@types/jest": "^29.5.0",
     "@types/node": "^18.0.0",
     "@types/react": "^18.2.0",

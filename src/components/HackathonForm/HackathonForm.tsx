@@ -21,8 +21,6 @@ import { FAQ } from './components/FAQsForm/types';
 import { HackathonFormProps, HackathonFormData } from './types';
 import HackathonPreview from './components/HackathonPreview/HackathonPreview';
 
-
-
 const calculateProgress = (
   formData: HackathonFormData,
   prizes: Track[],
