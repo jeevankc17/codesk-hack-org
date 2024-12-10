@@ -120,7 +120,7 @@ const BuilderForm: React.FC<BuilderFormProps> = ({ initialData, onSubmit }) => {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row justify-between items-center py-4 space-y-4 sm:space-y-0">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900">
-              Builder Profile
+              Create Builder Profile
             </h1>
             <div className="w-full sm:w-1/3">
               <ProgressBar progress={progress} />
