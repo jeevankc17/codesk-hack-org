@@ -22,3 +22,12 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+.vercel
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# Don't ignore example environment variables
+!.env.example

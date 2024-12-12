@@ -8,16 +8,21 @@ import { AppContent } from './components/AppContent';
 import { ClerkProvider, SignIn, SignUp } from '@clerk/clerk-react';
 import { Routes, Route } from 'react-router-dom';
 
-// Create a client
 const queryClient = new QueryClient();
 
 const PUBLISHABLE_KEY = process.env.REACT_APP_CLERK_PUBLISHABLE_KEY;
+console.log('Environment check:', { 
+  hasKey: !!PUBLISHABLE_KEY,
+  env: process.env.NODE_ENV 
+});
 
 if (!PUBLISHABLE_KEY) {
+  console.error('Missing CLERK_PUBLISHABLE_KEY');
   throw new Error('Missing REACT_APP_CLERK_PUBLISHABLE_KEY');
 }
 
 function AppRoutes() {
+  console.log('AppRoutes mounting...');
   return (
     <Router>
       <MainLayout>
@@ -33,6 +38,7 @@ function AppRoutes() {
 }
 
 function App() {
+  console.log('App component mounting...');
   return (
     <QueryClientProvider client={queryClient}>
       <ClerkProvider publishableKey={PUBLISHABLE_KEY!}>
